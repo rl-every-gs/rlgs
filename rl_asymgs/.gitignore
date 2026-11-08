@@ -1,0 +1,19 @@
+# Generated files and experiment artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+*.so
+*.o
+*.a
+*.log
+events.out.tfevents.*
+output*/
+dataset/
+datasets/
+data/
+*.pth
+*.pt
+*.ckpt
+.DS_Store

@@ -1,0 +1,27 @@
+{
+  "environment": "rlgs-asymgs",
+  "python": "3.11",
+  "versions": {
+    "torch": "2.6.0+cu126",
+    "torchvision": "0.21.0+cu126",
+    "numpy": "1.26.4",
+    "nerfbaselines": "1.2.12"
+  },
+  "extensions": [
+    "submodules/diff-gaussian-rasterization",
+    "submodules/simple-knn"
+  ],
+  "imports": [
+    "torchvision",
+    "plyfile",
+    "tensorboard",
+    "simple_knn._C",
+    "diff_gaussian_rasterization",
+    "nerfbaselines"
+  ],
+  "project_imports": [
+    "asym_emags",
+    "rlgs",
+    "evaluation_model"
+  ]
+}

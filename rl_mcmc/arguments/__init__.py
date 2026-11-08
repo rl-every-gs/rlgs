@@ -1,0 +1,210 @@
+#
+# Copyright (C) 2023, Inria
+# GRAPHDECO research group, https://team.inria.fr/graphdeco
+# All rights reserved.
+#
+# This software is free for non-commercial, research and evaluation use 
+# under the terms of the LICENSE.md file.
+#
+# For inquiries contact  george.drettakis@inria.fr
+#
+
+from argparse import ArgumentParser, Namespace
+import sys
+import os
+
+class GroupParams:
+    pass
+
+class ParamGroup:
+    def __init__(self, parser: ArgumentParser, name : str, fill_none = False):
+        group = parser.add_argument_group(name)
+        for key, value in vars(self).items():
+            shorthand = False
+            if key.startswith("_"):
+                shorthand = True
+                key = key[1:]
+            t = type(value)
+            value = value if not fill_none else None 
+            if shorthand:
+                if t == bool:
+                    group.add_argument("--" + key, ("-" + key[0:1]), default=value, action="store_true")
+                else:
+                    group.add_argument("--" + key, ("-" + key[0:1]), default=value, type=t)
+            else:
+                if t == bool:
+                    group.add_argument("--" + key, default=value, action="store_true")
+                else:
+                    group.add_argument("--" + key, default=value, type=t)
+
+    def extract(self, args):
+        group = GroupParams()
+        for arg in vars(args).items():
+            if arg[0] in vars(self) or ("_" + arg[0]) in vars(self):
+                setattr(group, arg[0], arg[1])
+        return group
+
+class ModelParams(ParamGroup): 
+    def __init__(self, parser, sentinel=False):
+        self.sh_degree = 3
+        self._source_path = ""
+        self._model_path = ""
+        self._images = "images"
+        self._resolution = -1
+        self._white_background = False
+        self.data_device = "cuda"
+        self.eval = False
+        self.cap_max = -1
+        self.init_type = "random"
+        super().__init__(parser, "Loading Parameters", sentinel)
+
+    def extract(self, args):
+        g = super().extract(args)
+        g.source_path = os.path.abspath(g.source_path)
+        return g
+
+class PipelineParams(ParamGroup):
+    def __init__(self, parser):
+        self.convert_SHs_python = False
+        self.compute_cov3D_python = False
+        self.debug = False
+        super().__init__(parser, "Pipeline Parameters")
+
+class OptimizationParams(ParamGroup):
+    def __init__(self, parser):
+        self.iterations = 30_000
+        self.position_lr_init = 0.00016
+        self.position_lr_final = 0.0000016
+        self.position_lr_delay_mult = 0.01
+        self.position_lr_max_steps = 30_000
+        self.feature_lr = 0.0025
+        self.opacity_lr = 0.05
+        self.scaling_lr = 0.005
+        self.rotation_lr = 0.001
+        self.percent_dense = 0.01
+        self.lambda_dssim = 0.2
+        self.densification_interval = 100
+        self.opacity_reset_interval = 3000
+        self.densify_from_iter = 500
+        self.densify_until_iter = 25_000
+        self.densify_grad_threshold = 0.0002
+        self.random_background = False
+        self.noise_lr = 5e5
+        self.scale_reg = 0.01
+        self.opacity_reg = 0.01
+        
+        
+        
+        ## added 
+        
+        self.num_actions = 3 
+        self.seeds = 0 
+        self.pl_lr = 0.0001
+        self.policy_channel_num = 3
+        self.reward_type = "npsnr"
+        self.reward_cam_idx = 1
+        self.world_scale = '1'
+        self.same_reward_set = 0
+        self.rl_xyz = 1 
+        self.clip_norm = 1
+        self.positive_rl_only = 0
+        self.policy = 1
+        self.opacity_threshold = 0.005
+        self.rl_densi = 0 
+        self.rl_densi_clamp = 0
+        self.cameras_extent_scale = 1 # adjust table
+        self.densify_rl_cnt = 1
+        self.change_seed = 0 
+        self.densi_rl_innter_step = 20
+        self.rl_interval = 20 # not use 
+        self.min_reward = 0 
+        self.reward_scale = 20.0
+        self.rl_warmup = 100
+        self.reward_sampling = 0
+        self.reward_sampling_interval = 100
+        self.two_step_densi_iter = -1
+        self.length_densi_cam = 30
+        self.rst_opdrds = 1
+        self.init_weight = -0.5
+        self.eps_beta = 0.01
+        self.init_std = 0.0
+        self.penalty_std_weight = 0.0
+        self.rl_bsize = 1
+        self.post_freeze_itr = 300001
+        self.grdclip = 100000.0
+        self.stop_rl_iters = 300001 # not use
+        self.nv_iters = 30001
+        self.reward_scale_v2 = 0.1
+        self.hidden_state = 32
+        self.hidden_length = 2
+        self.latent_dim = 32
+        self.inner_step = 2
+        self.new_view_frequency = 4
+        self.run_id = 0 
+        self.reward_scale_final = 1.0
+        self.pl_lr_final = 0.0001
+        self.densi_init_std = 0.0 
+        self.rl_densi_cnt = 5
+        self.reward_weight_final = 1.0
+        self.reward_hp_2 = 2.0
+        self.entropy_coef = 0.01
+        self.reward_option = 0
+        self.ema = 0.35
+        self.end_max = -5.0
+        self.lr_freq = 0
+        self.embed_dim = 16
+        self.hidden_dim = 64
+        self.shuffle_interval = 3000
+        self.sfutil = 30000
+        self.offset = 0
+        self.rl_start = 7000
+        self.future_step = 1
+        self.boost_step = 29000
+        self.beta_final = 0.03
+        self.training_network = 1 
+        self.inner_loop = 2
+        self.boost_step_loop = 6
+        self.rw_scaler = 30.0
+        self.reward_penalty = 0.0 
+        self.lr_loop = 2
+        self.lambda_penalty    = 5.0
+        self.mixture_internval = 10000
+        self.hidden_interval   = 1000
+        self.batch_size = 1
+        self.init_mu_ds = 1.0
+        self.init_mu_lr = 1.0
+        self.init_beta  = 0.01
+        self.beta_itr   = 2.0
+        
+        super().__init__(parser, "Optimization Parameters")
+        parser.add_argument(
+            "--seed",
+            dest="seeds",
+            type=int,
+            help="Random seed (alias for the legacy --seeds option).",
+        )
+
+def get_combined_args(parser : ArgumentParser):
+    
+    
+    
+    cmdlne_string = sys.argv[1:]
+    cfgfile_string = "Namespace()"
+    args_cmdline = parser.parse_args(cmdlne_string)
+
+    try:
+        cfgfilepath = os.path.join(args_cmdline.model_path, "cfg_args")
+        print("Looking for config file in", cfgfilepath)
+        with open(cfgfilepath) as cfg_file:
+            print("Config file found: {}".format(cfgfilepath))
+            cfgfile_string = cfg_file.read()
+    except TypeError:
+        print("Config file not found at")
+        pass
+    args_cfgfile = eval(cfgfile_string)
+
+    merged_dict = vars(args_cfgfile).copy()
+    for k,v in vars(args_cmdline).items():
+        if v != None:
+            merged_dict[k] = v
+    return Namespace(**merged_dict)

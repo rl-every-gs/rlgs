@@ -1,0 +1,2 @@
+# Preserve exact bytes required by the frozen source checksum manifest.
+* -text

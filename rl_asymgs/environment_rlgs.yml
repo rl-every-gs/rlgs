@@ -1,0 +1,25 @@
+# Linux x86_64; an NVIDIA driver is required.
+# CUDA Toolkit and compatible GCC/G++ are included for local extension builds.
+name: rlgs-asymgs
+channels:
+  - nvidia
+  - defaults
+dependencies:
+  - python=3.11
+  - numpy=1.26.4
+  - cuda-nvcc
+  - cuda-cudart-dev
+  - cuda-cccl
+  - cuda-version=12.6
+  - gcc_linux-64=11.2.0
+  - gxx_linux-64=11.2.0
+  - pip
+  - wheel
+  - ninja
+  - packaging
+  - pip:
+      - setuptools==83.0.0
+      - -r requirements_rlgs.txt
+variables:
+  MKL_THREADING_LAYER: GNU
+  CUBLAS_WORKSPACE_CONFIG: ":4096:8"

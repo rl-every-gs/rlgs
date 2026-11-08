@@ -1,0 +1,17 @@
+# Direct runtime dependencies from the working stack environment.
+# CUDA extensions are built from this method's local source by setup.sh.
+--extra-index-url https://download.pytorch.org/whl/cu126
+torch==2.6.0+cu126
+torchvision==0.21.0+cu126
+numpy==1.26.4
+opencv-python==4.11.0.86
+pillow==12.3.0
+plyfile==1.1.3
+tensorboard==2.21.0
+tqdm==4.70.1
+nerfbaselines==1.2.12
+scipy==1.17.1
+wandb==0.30.0
+matplotlib==3.11.2
+mediapy==1.2.7
+PyYAML==6.0.3

@@ -1,0 +1,19 @@
+{
+    "reward_cam_idx": 20,
+    "same_reward_set": 1008,
+    "rl_densi": 1,
+    "densi_rl_innter_step": 4,
+    "rst_opdrds": 0,
+    "grdclip": 2.4,
+    "reward_scale_v2": 0.041666666666666664,
+    "hidden_state": 16,
+    "reward_scale_final": 0.05,
+    "rl_densi_cnt": 500,
+    "reward_option": 2,
+    "lr_freq": 1,
+    "shuffle_interval": 1000,
+    "offset": 2,
+    "future_step": 20,
+    "boost_step_loop": 8,
+    "lambda_penalty": 70.0
+}

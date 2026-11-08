@@ -1,0 +1,27 @@
+{
+  "environment": "rlgs-tmgs",
+  "python": "3.10",
+  "versions": {
+    "torch": "2.6.0+cu126",
+    "torchvision": "0.21.0+cu126",
+    "numpy": "1.26.2"
+  },
+  "extensions": [
+    "submodules/diff-gaussian-rasterization",
+    "submodules/simple-knn",
+    "submodules/fused-ssim"
+  ],
+  "imports": [
+    "torchvision",
+    "plyfile",
+    "tensorboard",
+    "simple_knn._C",
+    "diff_gaussian_rasterization",
+    "fused_ssim"
+  ],
+  "project_imports": [
+    "helper_rl",
+    "helper_model",
+    "helper_modelv2"
+  ]
+}
