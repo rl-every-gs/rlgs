@@ -20,6 +20,7 @@ Goertek Alpha Labs
 
 - `Aug 6, 2025`: Our [arXiv paper](https://arxiv.org/abs/2508.04078) is released.
 - `Oct 14, 2026`: Our paper has been accepted to WACV 2027. Thank you to all authors, reviewers, area chairs, and the 3DGS community.
+- More frameworks including LichtFeld Studio (WIP) coming soon.
 
 ## Table of Contents
 
